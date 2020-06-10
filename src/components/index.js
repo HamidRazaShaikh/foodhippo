@@ -3,36 +3,33 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ShoppingBasketOutlinedIcon from "@material-ui/icons/ShoppingBasketOutlined";
-import Alert from '@material-ui/lab/Alert';
+import MyLocationTwoToneIcon from "@material-ui/icons/MyLocationTwoTone";
+import Alert from "@material-ui/lab/Alert";
+import AlertDialog from "./dialogmap";
+
+import InputAdornment from "@material-ui/core/InputAdornment";
 import BackgroundImage from "./pics/backgroundfoodpic.jpg";
 import Logo from "./pics/logo.png";
-
 
 class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       adress: "",
-      message : false
+      message: false,
+      cardshow : false
     };
   }
   handleOnChange = (e) => {
-    this.setState({message : false})
+    this.setState({ message: false });
     this.setState({ [e.target.name]: e.target.value });
   };
 
   Delivery = () => {
     let adress = this.state.adress;
     if (adress === "") {
-      this.setState ( {message :  true})
-     
-    }
-
-    else (
-
-      this.props.history.push("delivery/" + adress))
-
-    
+      this.setState({ message: true });
+    } else (this.props.history.push("delivery/" + adress));
   };
 
   render() {
@@ -185,7 +182,6 @@ class Index extends React.Component {
             flexDirection: "row",
           }}
         >
-          
           <TextField
             id="outlined-basic"
             label="Enter your full adress"
@@ -194,18 +190,16 @@ class Index extends React.Component {
             value={this.state.adress}
             name="adress"
             onChange={this.handleOnChange}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <MyLocationTwoToneIcon />
+                </InputAdornment>
+              ),
+            }}
           />
-          
-          
-          
-          <Button
-            variant="contained"
-            color="secondary"
-            style={{ marginLeft: 25, width: 100, height: 54 }}
-            onClick={this.Delivery}
-          >
-            DELIVERY
-          </Button>
+
+         <AlertDialog/>
           <h3 style={{ marginLeft: 15, fontFamily: "sans-serif" }}>or</h3>
           <Button
             variant="contained"
@@ -216,7 +210,23 @@ class Index extends React.Component {
           </Button>
         </div>
 
-        { this.state.message ? <Alert severity="info" style = {{marginLeft : 100, marginTop : -10, marginRight : 1000}}>Please enter your adress!</Alert> : null}
+        {this.state.message ? (
+          <Alert
+            severity="info"
+            style={{ marginLeft: 100, marginTop: -10, marginRight: 1000 }}
+          >
+            Please enter your adress!
+          </Alert>
+        ) : null}
+
+
+       
+        
+
+        
+
+
+
       </div>
     );
   }
