@@ -3,10 +3,38 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ShoppingBasketOutlinedIcon from "@material-ui/icons/ShoppingBasketOutlined";
+import Alert from '@material-ui/lab/Alert';
 import BackgroundImage from "./pics/backgroundfoodpic.jpg";
 import Logo from "./pics/logo.png";
 
+
 class Index extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      adress: "",
+      message : false
+    };
+  }
+  handleOnChange = (e) => {
+    this.setState({message : false})
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  Delivery = () => {
+    let adress = this.state.adress;
+    if (adress === "") {
+      this.setState ( {message :  true})
+     
+    }
+
+    else (
+
+      this.props.history.push("delivery/" + adress))
+
+    
+  };
+
   render() {
     return (
       <div>
@@ -22,14 +50,14 @@ class Index extends React.Component {
         >
           <img
             src={Logo}
-            alt = ""
+            alt=""
             style={{
-              marginLeft: 5,
-              marginTop: 10,
+              marginLeft: 10,
+              marginTop: 15,
               zIndex: 1,
               position: "absolute",
-              height: 40,
-              width: 40,
+              height: 30,
+              width: 30,
             }}
           />
           <h3
@@ -40,7 +68,7 @@ class Index extends React.Component {
               color: "#f50057",
             }}
           >
-            foodhippo
+            foodpanda
           </h3>
           <h3
             style={{
@@ -134,7 +162,7 @@ class Index extends React.Component {
         <div>
           <img
             src={BackgroundImage}
-            alt = ""
+            alt=""
             style={{
               marginLeft: 850,
               marginTop: -220,
@@ -157,16 +185,24 @@ class Index extends React.Component {
             flexDirection: "row",
           }}
         >
+          
           <TextField
             id="outlined-basic"
             label="Enter your full adress"
             variant="outlined"
             style={{ width: 600 }}
+            value={this.state.adress}
+            name="adress"
+            onChange={this.handleOnChange}
           />
+          
+          
+          
           <Button
             variant="contained"
             color="secondary"
             style={{ marginLeft: 25, width: 100, height: 54 }}
+            onClick={this.Delivery}
           >
             DELIVERY
           </Button>
@@ -179,6 +215,8 @@ class Index extends React.Component {
             PICKUP
           </Button>
         </div>
+
+        { this.state.message ? <Alert severity="info" style = {{marginLeft : 100, marginTop : -10, marginRight : 1000}}>Please enter your adress!</Alert> : null}
       </div>
     );
   }
