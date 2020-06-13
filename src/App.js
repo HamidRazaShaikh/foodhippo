@@ -6,7 +6,8 @@ import {
   Link
 } from "react-router-dom";
 import Index from "./components/index.js";
-import Delivery from "./components/delivery.js"
+import Delivery from "./components/delivery.js";
+import Pickup from "./components/picup.js";
 
 class App extends React.Component {
 
@@ -17,6 +18,7 @@ class App extends React.Component {
       <Router>
         <Route exact path = {'/'} component = {Index}/>
         <Route exact path = {'/delivery/:adress'} component = {Delivery}/>
+        <Route exact path = {'/pickup/:adress'} component = {Pickup}/>
       </Router>
 
       </div>

@@ -1,49 +1,126 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import React from "react";
+import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import MuiDialogTitle from "@material-ui/core/DialogTitle";
+import MuiDialogContent from "@material-ui/core/DialogContent";
+import MuiDialogActions from "@material-ui/core/DialogActions";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import Typography from "@material-ui/core/Typography";
+import MyLocationTwoToneIcon from "@material-ui/icons/MyLocationTwoTone";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import TextField from "@material-ui/core/TextField";
 
-export default function AlertDialog() {
+const styles = (theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(2),
+  },
+  closeButton: {
+    position: "absolute",
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
+});
+
+const DialogTitle = withStyles(styles)((props) => {
+  const { children, classes, onClose, ...other } = props;
+  return (
+    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+      <Typography variant="h6">{children}</Typography>
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          className={classes.closeButton}
+          onClick={onClose}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </MuiDialogTitle>
+  );
+});
+
+const DialogContent = withStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+  },
+}))(MuiDialogContent);
+
+const DialogActions = withStyles((theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(1),
+  },
+}))(MuiDialogActions);
+
+const handleOnChange = (e) => {
+  this.setState({ message: false });
+  this.setState({ [e.target.name]: e.target.value });
+};
+
+export default function CustomizedDialogs(props) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
 
   return (
     <div>
-      
-      <Button variant="contained"
-            color="secondary"
-            style={{ marginLeft: 25, width: 100, height: 54 }} onClick={handleClickOpen}>
+      <Button
+        variant="contained"
+        color="secondary"
+        style={{ marginLeft: 15, width: 100, height: 54 }}
+        onClick={handleClickOpen}
+      >
         DELIVERY
       </Button>
       <Dialog
-        open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby="customized-dialog-title"
+        open={open}
       >
-        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending anonymous location data to
-            Google, even when no apps are running.
-          </DialogContentText>
+        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+          Is this your exact location?
+          <TextField
+            id="outlined-basic"
+            label="Enter your full adress"
+            variant="outlined"
+            style={{ width: 500 }}
+            value={props.adress}
+            name="adress"
+            onChange={handleOnChange}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <MyLocationTwoToneIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </DialogTitle>
+        <DialogContent dividers>
+          <iFrame
+            style={{ width: "100%", height: 500 ,visibility : 'visible' }}
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d924234.6302710465!2d66.59495074892502!3d25.19338946981612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33e06651d4bbf%3A0x9cf92f44555a0c23!2sKarachi%2C%20Karachi%20City%2C%20Sindh%2C%20Pakistan!5e0!3m2!1sen!2s!4v1591961380984!5m2!1sen!2s">
+           
+          </iFrame>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Disagree
-          </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Agree
+          <Button
+            variant="contained"
+            color="secondary"
+            style={{ width: 150, height: 54, alignSelf: "center" }}
+            autoFocus
+            onClick={handleClose}
+          >
+            FIND RESTAURANTS
           </Button>
         </DialogActions>
       </Dialog>
