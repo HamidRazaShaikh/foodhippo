@@ -43,9 +43,11 @@ class Index extends React.Component {
 
   handlePickup = () => {
     let adress = this.state.adress;
+    let latitude = this.state.latitude;
+    let longitude = this.state.longitude;
     if (adress === "") {
       this.setState({ message: true });
-    } else this.props.history.push("pickup/" + adress);
+    } else this.props.history.push("pickup/"+ latitude + longitude);
   };
 
   handleModel = () => {
@@ -66,18 +68,17 @@ class Index extends React.Component {
       console.log(`Latitude : ${crd.latitude}`);
       console.log(`Longitude : ${crd.longitude}`);
 
-      this.setState({latitude : `${crd.latitude}`});
-      this.setState({longitude : `${crd.longitude}`});
+      this.setState({ latitude: `${crd.latitude}` });
+      this.setState({ longitude: `${crd.longitude}` });
       console.log(this.state.latitude);
       console.log(this.state.longitude);
-
     };
 
     const error = (err) => {
       console.warn(`error (${err.code}) : ${err.message}`);
     };
 
-    navigator. geolocation.getCurrentPosition(success , error , option)
+    navigator.geolocation.getCurrentPosition(success, error, option);
   };
 
   changeBackground1 = (e) => {
@@ -256,19 +257,25 @@ class Index extends React.Component {
             onChange={this.handleOnChange}
             InputProps={{
               endAdornment: (
-                <InputAdornment position="end">
+                <InputAdornment
+                  position="end"
+                  onMouseEnter={this.toggleHover}
+                  onMouseOut={this.toggleHover}
+                >
                   <MyLocationTwoToneIcon
                     style={linkStyle}
                     onClick={this.locationFinder}
-                    onMouseEnter={this.toggleHover}
-                    onMouseOut={this.toggleHover}
                   />
                 </InputAdornment>
               ),
             }}
           />
 
-          <CustomizedDialogs adress={this.state.adress} />
+          <CustomizedDialogs
+            adress={this.state.adress}
+            latitude={this.state.latitude}
+            longitude={this.state.longitude}
+          />
 
           {/* <SimpleModal adress = {this.state.adress} message = {this.state.message}/> */}
           <h3 style={{ marginLeft: 15, fontFamily: "sans-serif" }}>or</h3>
@@ -283,16 +290,37 @@ class Index extends React.Component {
         </div>
 
         {this.state.message ? (
-          <div
+          <div style= {{height : 200 , paddiing : 2,  posititon: "absolute"}}  >
+            <div
+              style={{
+               
+                marginLeft: 120,
+                marginRight: "auto",  
+                marginBotton : 200,                         
+                zIndex: -1,
+                width: 10,
+                height:10,
+                backgroundColor: "red",
+                posititon: "absolute",
+                transform: `rotate(${45}deg)`,
+              }}
+            ></div>
+             <div
             style={{
-              marginLeft: 50,
+              marginLeft: 110,
+              marginTop: -20,
               backgroundColor: "#FA7751",
               textAlign: "left",
+              padding: 5,
+              width: 200,
             }}
           >
-            <div></div>
+            
             Please enter your adress!
           </div>
+
+          </div>
+         
         ) : null}
       </div>
     );

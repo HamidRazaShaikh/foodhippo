@@ -18,7 +18,7 @@ class App extends React.Component {
       <Router>
         <Route exact path = {'/'} component = {Index}/>
         <Route exact path = {'/delivery/:adress'} component = {Delivery}/>
-        <Route exact path = {'/pickup/:adress'} component = {Pickup}/>
+        <Route exact path = {'/pickup/:latitudelongitude'} component = {Pickup}/>
       </Router>
 
       </div>
